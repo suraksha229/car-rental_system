@@ -92,7 +92,7 @@ $error="Something went wrong. Please try again";
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Car Rental Portal | Admin Post Vehicle</title>
+	<title>Add Vehicles</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -141,7 +141,7 @@ $error="Something went wrong. Please try again";
 				<div class="row">
 					<div class="col-md-12">
 					
-						<h2 class="page-title">Post A Vehicle</h2>
+						<h2 class="page-title">Add Vehicles</h2>
 
 						<div class="row">
 							<div class="col-md-12">

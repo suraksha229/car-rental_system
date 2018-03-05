@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-3 col-md-2">
-          <div class="logo"> <a href="index.php"><img src="assets/images/logo.png" alt="image"/></a> </div>
+          <div class="logo"> <a href="index.php"><img src="assets/images/logo1.png" alt="image"/></a> </div>
         </div>
         <div class="col-sm-9 col-md-10">
           <div class="header_info">
@@ -15,7 +15,7 @@
             <div class="header_widgets">
               <div class="circle_icon"> <i class="fa fa-phone" aria-hidden="true"></i> </div>
               <p class="uppercase_text">Service Helpline Call Us: </p>
-              <a href="tel:61-1234-5678-09">+91-1234-5678-9</a> </div>
+              <a href="tel:61-1234-5678-09">+91-1234-5678-90</a> </div>
             <div class="social-follow">
               <ul>
                 <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
@@ -67,16 +67,16 @@ foreach($results as $result)
            <?php if($_SESSION['login']){?>
             <li><a href="profile.php">Profile Settings</a></li>
               <li><a href="update-password.php">Update Password</a></li>
-            <li><a href="my-booking.php">My Booking</a></li>
-            <li><a href="post-testimonial.php">Post a Testimonial</a></li>
-          <li><a href="my-testimonials.php">My Testimonial</a></li>
+            <li><a href="my-booking.php">My Bookings</a></li>
+            <li><a href="post-testimonial.php">Post Feedback</a></li>
+          <li><a href="my-testimonials.php">My Feedbacks</a></li>
             <li><a href="logout.php">Sign Out</a></li>
             <?php } else { ?>
             <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">Profile Settings</a></li>
               <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">Update Password</a></li>
             <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">My Booking</a></li>
-            <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">Post a Testimonial</a></li>
-          <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">My Testimonial</a></li>
+            <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">Post Feedback</a></li>
+          <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">My Feedbacks</a></li>
             <li><a href="#loginform"  data-toggle="modal" data-dismiss="modal">Sign Out</a></li>
             <?php } ?>
           </ul>
@@ -85,7 +85,7 @@ foreach($results as $result)
         </div>
         <div class="header_search">
           <div id="search_toggle"><i class="fa fa-search" aria-hidden="true"></i></div>
-          <form action="#" method="get" id="header-search-form">
+          <form action="search_car.php" method="get" id="header-search-form">
             <input type="text" placeholder="Search..." class="form-control">
             <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
           </form>

@@ -19,7 +19,7 @@ else{
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Car Rental Portal | Admin Dashboard</title>
+	<title>Admin Dashboard</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -67,7 +67,7 @@ $results=$query->fetchAll(PDO::FETCH_OBJ);
 $regusers=$query->rowCount();
 ?>
 													<div class="stat-panel-number h1 "><?php echo htmlentities($regusers);?></div>
-													<div class="stat-panel-title text-uppercase">Reg Users</div>
+													<div class="stat-panel-title text-uppercase">Registered Users</div>
 												</div>
 											</div>
 											<a href="reg-users.php" class="block-anchor panel-footer">Full Detail <i class="fa fa-arrow-right"></i></a>
@@ -136,7 +136,7 @@ $brands=$query3->rowCount();
 
 
 
-<div class="row">
+<!--<div class="row">
 					<div class="col-md-12">
 
 						
@@ -155,12 +155,13 @@ $results4=$query4->fetchAll(PDO::FETCH_OBJ);
 $subscribers=$query4->rowCount();
 ?>
 													<div class="stat-panel-number h1 "><?php echo htmlentities($subscribers);?></div>
-													<div class="stat-panel-title text-uppercase">Subscibers</div>
+													<div class="stat-panel-title text-uppercase">Subscribers</div>
 												</div>
 											</div>
 											<a href="manage-subscribers.php" class="block-anchor panel-footer">Full Detail <i class="fa fa-arrow-right"></i></a>
 										</div>
-									</div>
+									</div>-->
+									
 									<div class="col-md-3">
 										<div class="panel panel-default">
 											<div class="panel-body bk-success text-light">
@@ -192,7 +193,7 @@ $testimonials=$query5->rowCount();
 ?>
 
 													<div class="stat-panel-number h1 "><?php echo htmlentities($testimonials);?></div>
-													<div class="stat-panel-title text-uppercase">Testimonials</div>
+													<div class="stat-panel-title text-uppercase">Feedbacks</div>
 												</div>
 											</div>
 											<a href="testimonials.php" class="block-anchor panel-footer text-center">Full Detail &nbsp; <i class="fa fa-arrow-right"></i></a>

@@ -1,0 +1,2 @@
+INSERT INTO `admin` (`id`, `UserName`, `Password`, `updationDate`) VALUES
+(NULL, 'emp1', '5c428d8875d2948607f3e3fe134d71b4', '2018-02-18 12:22:38');

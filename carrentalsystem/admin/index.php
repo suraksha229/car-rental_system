@@ -14,7 +14,7 @@ $results=$query->fetchAll(PDO::FETCH_OBJ);
 if($query->rowCount() > 0)
 {
 $_SESSION['alogin']=$_POST['username'];
-echo "<script type='text/javascript'> document.location = 'change-password.php'; </script>";
+echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
 } else{
   
   echo "<script>alert('Invalid Details');</script>";
@@ -34,7 +34,7 @@ echo "<script type='text/javascript'> document.location = 'change-password.php';
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Car Rental Portal | Admin Login</title>
+	<title>Admin login</title>
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">

@@ -34,7 +34,7 @@ $msg="Info Updateed successfully";
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Car Rental Portal | Admin Create Brand</title>
+	<title>Update contact information</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -84,7 +84,7 @@ $msg="Info Updateed successfully";
 				<div class="row">
 					<div class="col-md-12">
 					
-						<h2 class="page-title">Update Contact Info</h2>
+						<h2 class="page-title">Update Contact Information</h2>
 
 						<div class="row">
 							<div class="col-md-10">
