@@ -97,7 +97,7 @@ $cnt=$query->rowCount();
 </div>
 </div>
 
-<?php $sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand tblvehicles.VehiclesTitle LIKE '%" . $name . "%' OR tblbrands.VehiclesBrand LIKE '%" . $name  ."%'";
+<?php $sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand AND ('tblvehicles.VehiclesTitle' LIKE '%" . $name . "%') OR ('tblbrands.BrandName') LIKE '%" . $name  ."%'";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
