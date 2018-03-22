@@ -11,13 +11,13 @@ if(isset($_REQUEST['eid']))
 	{
 $eid=intval($_GET['eid']);
 $status="2";
-$sql = "UPDATE tblbooking SET Status=:status WHERE  id=:eid";
+$sql = "UPDATE bookings SET Status=:status WHERE  id=:eid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':eid',$eid, PDO::PARAM_STR);
 $query -> execute();
 
-$msg="Booking Cancelled";
+$msg="Bookings Cancelled";
 }
 
 
@@ -26,13 +26,13 @@ if(isset($_REQUEST['aeid']))
 $aeid=intval($_GET['aeid']);
 $status=1;
 
-$sql = "UPDATE tblbooking SET Status=:status WHERE  id=:aeid";
+$sql = "UPDATE bookings SET Status=:status WHERE  id=:aeid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
 $query -> execute();
 
-$msg="Booking Confirmed";
+$msg="Bookings Confirmed";
 }
 
 
@@ -49,7 +49,7 @@ $msg="Booking Confirmed";
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Manage bookings   </title>
+	<title>Manage bookingss   </title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -99,7 +99,7 @@ $msg="Booking Confirmed";
 				<div class="row">
 					<div class="col-md-12">
 
-						<h2 class="page-title">Manage Bookings</h2>
+						<h2 class="page-title">Manage Bookingss</h2>
 
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
@@ -136,7 +136,7 @@ $msg="Booking Confirmed";
 									</tfoot>
 									<tbody>
 
-									<?php $sql = "SELECT tblusers.FullName,tblbrands.BrandName,tblvehicles.VehiclesTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.PostingDate,tblbooking.id  from tblbooking join tblvehicles on tblvehicles.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tblbooking.userEmail join tblbrands on tblvehicles.VehiclesBrand=tblbrands.id  ";
+									<?php $sql = "SELECT customers.FullName,brands.BrandName,vehicles.VehiclesTitle,bookings.FromDate,bookings.ToDate,bookings.message,bookings.VehicleId as vid,bookings.Status,bookings.PostingDate,bookings.id  from bookings join vehicles on vehicles.id=bookings.VehicleId join customers on customers.EmailId=bookings.userEmail join brands on vehicles.VehiclesBrand=brands.id  ";
 								
 								$query = $dbh -> prepare($sql);
 								$query->execute();
@@ -166,10 +166,10 @@ $msg="Booking Confirmed";
  										}
 										?></td>
 											<td><?php echo htmlentities($result->PostingDate);?></td>
-										<td><a href="manage-bookings.php?aeid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
+										<td><a href="manage-bookingss.php?aeid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Confirm this bookings')"> Confirm</a> /
 
 
-<a href="manage-bookings.php?eid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
+<a href="manage-bookingss.php?eid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Cancel this Bookings')"> Cancel</a>
 </td>
 
 										</tr>

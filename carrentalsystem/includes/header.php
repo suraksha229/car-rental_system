@@ -1,50 +1,10 @@
 
 <header>
-  <div class="default-header">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-3 col-md-2">
-          <div class="logo"> <a href="index.php"><img src="assets/images/logo1.png" alt="image"/></a> </div>
-        </div>
-        <div class="col-sm-9 col-md-10">
-          <div class="header_info">
-            <div class="header_widgets">
-              <div class="circle_icon"> <i class="fa fa-envelope" aria-hidden="true"></i> </div>
-              <p class="uppercase_text">For Support Mail us : </p>
-              <a href="mailto:info@example.com">info@example.com</a> </div>
-            <div class="header_widgets">
-              <div class="circle_icon"> <i class="fa fa-phone" aria-hidden="true"></i> </div>
-              <p class="uppercase_text">Service Helpline Call Us: </p>
-              <a href="tel:61-1234-5678-09">+91-1234-5678-90</a> </div>
-            <div class="social-follow">
-              <ul>
-                <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-              </ul>
-            </div>
-   <?php   if(strlen($_SESSION['login'])==0)
-	{	
-?>
- <div class="login_btn"> <a href="#loginform" class="btn btn-xs uppercase" data-toggle="modal" data-dismiss="modal">Login</a> </div>
-<?php }
-else{ 
-
-echo "Welcome To Car rental portal";
- } ?>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
   <!-- Navigation -->
   <nav id="navigation_bar" class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <button id="menu_slide" data-target="#navigation" aria-expanded="false" data-toggle="collapse" class="navbar-toggle collapsed" type="button"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+        <a class="navbar-brand" href="index.php">Online Car Rental System</a>
       </div>
       <div class="header_wrap">
         <div class="user_login">
@@ -52,7 +12,7 @@ echo "Welcome To Car rental portal";
             <li class="dropdown"> <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle" aria-hidden="true"></i> 
 <?php 
 $email=$_SESSION['login'];
-$sql ="SELECT FullName FROM tblusers WHERE EmailId=:email ";
+$sql ="SELECT FullName FROM customers WHERE EmailId=:email ";
 $query= $dbh -> prepare($sql);
 $query-> bindParam(':email', $email, PDO::PARAM_STR);
 $query-> execute();
@@ -85,9 +45,9 @@ foreach($results as $result)
         </div>
         <div class="header_search">
           <div id="search_toggle"><i class="fa fa-search" aria-hidden="true"></i></div>
-          <form action="search_car.php" method="get" id="header-search-form">
-            <input type="text" placeholder="Search..." class="form-control">
-            <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          <form action="search_car.php" method="post" id="header-search-form">
+            <input type="text" placeholder="Search cars" class="form-control" name="name">
+            <button type="submit" name="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
           </form>
         </div>
       </div>
@@ -97,9 +57,12 @@ foreach($results as $result)
           	 
           <li><a href="page.php?type=aboutus">About Us</a></li>
           <li><a href="car-listing.php">Car Listing</a>
-          <li><a href="page.php?type=faqs">FAQs</a></li>
           <li><a href="contact-us.php">Contact Us</a></li>
-
+          <li> <?php   if(strlen($_SESSION['login'])==0){ 
+              ?>
+              <a href="#loginform" class="btn btn-xs uppercase" data-toggle="modal" data-dismiss="modal">Login</a> </div>
+              <?php } ?>
+          </li>
         </ul>
       </div>
     </div>

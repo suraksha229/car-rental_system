@@ -150,7 +150,7 @@ $error="Something went wrong. Please try again";
         <div class="contact_detail">
               <?php 
 $pagetype=$_GET['type'];
-$sql = "SELECT Address,EmailId,ContactNo from tblcontactusinfo";
+$sql = "SELECT Address,EmailId,ContactNo from contactus";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':pagetype',$pagetype,PDO::PARAM_STR);
 $query->execute();

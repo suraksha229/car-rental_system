@@ -16,7 +16,8 @@ $adress=$_POST['address'];
 $city=$_POST['city'];
 $country=$_POST['country'];
 $email=$_SESSION['login'];
-$sql="update tblusers set FullName=:name,ContactNo=:mobileno,dob=:dob,Address=:adress,City=:city,Country=:country where EmailId=:email";
+$licence=$_SESSION['licencenumber'];
+$sql="update customers set FullName=:name,ContactNo=:mobileno,dob=:dob,Address=:adress,City=:city,Country=:country,LicenceNo=:licence where EmailId=:email";
 $query = $dbh->prepare($sql);
 $query->bindParam(':name',$name,PDO::PARAM_STR);
 $query->bindParam(':mobileno',$mobileno,PDO::PARAM_STR);
@@ -25,12 +26,13 @@ $query->bindParam(':adress',$adress,PDO::PARAM_STR);
 $query->bindParam(':city',$city,PDO::PARAM_STR);
 $query->bindParam(':country',$country,PDO::PARAM_STR);
 $query->bindParam(':email',$email,PDO::PARAM_STR);
+$query->bindParam(':licence',$licence,PDO::PARAM_STR);
 $query->execute();
 $msg="Profile Updated Successfully";
 }
 
 ?>
-  <!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -53,7 +55,7 @@ $msg="Profile Updated Successfully";
 <!--FontAwesome Font Style -->
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
 
-<!-- SWITCHER -->
+<!-- SWITCHER 
 		<link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
 		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/red.css" title="red" media="all" data-default-color="true" />
 		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/orange.css" title="orange" media="all" />
@@ -61,6 +63,7 @@ $msg="Profile Updated Successfully";
 		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/pink.css" title="pink" media="all" />
 		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/green.css" title="green" media="all" />
 		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/purple.css" title="purple" media="all" />
+    -->
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/favicon-icon/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon-icon/apple-touch-icon-114-precomposed.html">
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/favicon-icon/apple-touch-icon-72-precomposed.png">
@@ -88,9 +91,7 @@ $msg="Profile Updated Successfully";
 </head>
 <body>
 
-<!-- Start Switcher -->
-<?php include('includes/colorswitcher.php');?>
-<!-- /Switcher -->  
+
         
 <!--Header-->
 <?php include('includes/header.php');?>
@@ -116,7 +117,7 @@ $msg="Profile Updated Successfully";
 
 <?php 
 $useremail=$_SESSION['login'];
-$sql = "SELECT * from tblusers where EmailId=:useremail";
+$sql = "SELECT * from customers where EmailId=:useremail";
 $query = $dbh -> prepare($sql);
 $query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
 $query->execute();
@@ -149,45 +150,86 @@ foreach($results as $result)
          if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
           <form  method="post">
            <div class="form-group">
-              <label class="control-label">Reg Date -</label>
+              <label class="control-label">Registration Date: </label>
              <?php echo htmlentities($result->RegDate);?>
             </div>
              <?php if($result->UpdationDate!=""){?>
             <div class="form-group">
-              <label class="control-label">Last Update at  -</label>
+              <label class="control-label">Last Update on: </label>
              <?php echo htmlentities($result->UpdationDate);?>
             </div>
             <?php } ?>
+            <table>
+            <tr>
             <div class="form-group">
-              <label class="control-label">Full Name</label>
-              <input class="form-control white_bg" name="fullname" value="<?php echo htmlentities($result->FullName);?>" id="fullname" type="text"  required>
+              <td>
+              <label class="control-label">Full Name</label></td>
+              <td>
+              <input class="form-control white_bg" name="fullname" value="<?php echo htmlentities($result->FullName);?>" id="fullname" type="text"  required></td>
             </div>
+          </tr>
+          <tr>
+            <td>
             <div class="form-group">
-              <label class="control-label">Email Address</label>
+              <label class="control-label">Email Address</label></div>
+              <td>
               <input class="form-control white_bg" value="<?php echo htmlentities($result->EmailId);?>" name="emailid" id="email" type="email" required readonly>
+            </td>
             </div>
+          </tr>
+          <tr>
+            <td>
             <div class="form-group">
-              <label class="control-label">Phone Number</label>
-              <input class="form-control white_bg" name="mobilenumber" value="<?php echo htmlentities($result->ContactNo);?>" id="phone-number" type="text" required>
+              <label class="control-label">Date of Birth&nbsp;(dd/mm/yyyy)</label></div>
+              <td>
+              <input class="form-control white_bg" value="<?php echo htmlentities($result->dob);?>" name="dob" placeholder="dd/mm/yyyy" id="birth-date" type="text" ></td>
+
             </div>
+          </tr>
+          <tr>
             <div class="form-group">
-              <label class="control-label">Date of Birth&nbsp;(dd/mm/yyyy)</label>
-              <input class="form-control white_bg" value="<?php echo htmlentities($result->dob);?>" name="dob" placeholder="dd/mm/yyyy" id="birth-date" type="text" >
+              <td>
+              <label class="control-label">Phone Number</label></td>
+              <td>
+              <input class="form-control white_bg" name="mobilenumber" value="<?php echo htmlentities($result->ContactNo);?>" id="phone-number" type="text" required></td>
             </div>
+          </tr>
+          <tr>
             <div class="form-group">
-              <label class="control-label">Your Address</label>
-              <textarea class="form-control white_bg" name="address" rows="4" ><?php echo htmlentities($result->Address);?></textarea>
+              <td>
+              <label class="control-label">Driver's Licence Card Number</label></td>
+              <td>
+              <input class="form-control white_bg" name="licencenumber" value="<?php echo htmlentities($result->LicenceNo);?>" id="phone-number" type="text" required></td>
             </div>
+          </tr>
+          <tr>
             <div class="form-group">
-              <label class="control-label">Country</label>
-              <input class="form-control white_bg"  id="country" name="country" value="<?php echo htmlentities($result->City);?>" type="text">
+              <td>
+              <label class="control-label">Your Address</label></td>
+              <td>
+              <textarea class="form-control white_bg" name="address" rows="4"><?php echo htmlentities($result->Address);?></textarea>
+            </td>
             </div>
+          </tr>
+          <tr>
             <div class="form-group">
-              <label class="control-label">City</label>
-              <input class="form-control white_bg" id="city" name="city" value="<?php echo htmlentities($result->City);?>" type="text">
+              <td>
+              <label class="control-label">City</label></td>
+              <td>
+              <input class="form-control white_bg" id="city" name="city" value="<?php echo htmlentities($result->City);?>" type="text"></td>
             </div>
+          </tr>
+          <tr>
+            <div class="form-group">
+              <td>
+              <label class="control-label">Country</label></td>
+              <td>
+              <input class="form-control white_bg"  id="country" name="country" value="<?php echo htmlentities($result->City);?>" type="text"></td>
+            </div>
+          </tr>
+
             <?php }} ?>
-           
+            </table>
             <div class="form-group">
               <button type="submit" name="updateprofile" class="btn">Save Changes <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
             </div>

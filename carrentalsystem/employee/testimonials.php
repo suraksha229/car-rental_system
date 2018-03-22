@@ -11,13 +11,13 @@ if(isset($_REQUEST['eid']))
 	{
 $eid=intval($_GET['eid']);
 $status="0";
-$sql = "UPDATE tbltestimonial SET status=:status WHERE  id=:eid";
+$sql = "UPDATE feedback SET status=:status WHERE  id=:eid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':eid',$eid, PDO::PARAM_STR);
 $query -> execute();
 
-$msg="Testimonial Successfully Inacrive";
+$msg="feedback Successfully Inacrive";
 }
 
 
@@ -26,13 +26,13 @@ if(isset($_REQUEST['aeid']))
 $aeid=intval($_GET['aeid']);
 $status=1;
 
-$sql = "UPDATE tbltestimonial SET status=:status WHERE  id=:aeid";
+$sql = "UPDATE feedback SET status=:status WHERE  id=:aeid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
 $query -> execute();
 
-$msg="Testimonial Successfully Active";
+$msg="feedback Successfully Active";
 }
 
 
@@ -49,7 +49,7 @@ $msg="Testimonial Successfully Active";
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Car Rental Portal |Admin Manage testimonials   </title>
+	<title>Car Rental Portal |Admin Manage feedbacks   </title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -99,11 +99,11 @@ $msg="Testimonial Successfully Active";
 				<div class="row">
 					<div class="col-md-12">
 
-						<h2 class="page-title">Manage Testimonials</h2>
+						<h2 class="page-title">Manage feedbacks</h2>
 
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
-							<div class="panel-heading">User Testimonials</div>
+							<div class="panel-heading">User feedbacks</div>
 							<div class="panel-body">
 							<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
 				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
@@ -113,7 +113,7 @@ $msg="Testimonial Successfully Active";
 										<th>#</th>
 											<th>Name</th>
 											<th>Email</th>
-											<th>Testimonials</th>
+											<th>feedbacks</th>
 											<th>Posting date</th>
 											<th>Action</th>
 										</tr>
@@ -123,14 +123,14 @@ $msg="Testimonial Successfully Active";
 										<th>#</th>
 											<th>Name</th>
 											<th>Email</th>
-											<th>Testimonials</th>
+											<th>feedbacks</th>
 											<th>Posting date</th>
 											<th>Action</th>
 										</tr>
 									</tfoot>
 									<tbody>
 
-									<?php $sql = "SELECT tblusers.FullName,tbltestimonial.UserEmail,tbltestimonial.Testimonial,tbltestimonial.PostingDate,tbltestimonial.status,tbltestimonial.id from tbltestimonial join tblusers on tblusers.Emailid=tbltestimonial.UserEmail";
+									<?php $sql = "SELECT users.FullName,feedback.UserEmail,feedback.Testimonial,feedback.PostingDate,feedback.status,feedback.id from feedback join users on users.Emailid=feedback.UserEmail";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -143,14 +143,14 @@ foreach($results as $result)
 											<td><?php echo htmlentities($cnt);?></td>
 											<td><?php echo htmlentities($result->FullName);?></td>
 											<td><?php echo htmlentities($result->UserEmail);?></td>
-											<td><?php echo htmlentities($result->Testimonial);?></td>
+											<td><?php echo htmlentities($result->feedback);?></td>
 											<td><?php echo htmlentities($result->PostingDate);?></td>
 										<td><?php if($result->status=="" || $result->status==0)
 {
-	?><a href="testimonials.php?aeid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Active')"> Inactive</a>
+	?><a href="feedbacks.php?aeid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Active')"> Inactive</a>
 <?php } else {?>
 
-<a href="testimonials.php?eid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Inactive')"> Active</a>
+<a href="feedbacks.php?eid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Inactive')"> Active</a>
 </td>
 <?php } ?></td>
 										</tr>

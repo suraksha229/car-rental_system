@@ -2,35 +2,6 @@
 session_start();
 include('includes/config.php');
 error_reporting(0);
-if(isset($_POST['submit']))
-{
-$fromdate=$_POST['fromdate'];
-$todate=$_POST['todate']; 
-$message=$_POST['message'];
-$useremail=$_SESSION['login'];
-$status=0;
-$vhid=$_GET['vhid'];
-$sql="INSERT INTO  tblbooking(userEmail,VehicleId,FromDate,ToDate,message,Status) VALUES(:useremail,:vhid,:fromdate,:todate,:message,:status)";
-$query = $dbh->prepare($sql);
-$query->bindParam(':useremail',$useremail,PDO::PARAM_STR);
-$query->bindParam(':vhid',$vhid,PDO::PARAM_STR);
-$query->bindParam(':fromdate',$fromdate,PDO::PARAM_STR);
-$query->bindParam(':todate',$todate,PDO::PARAM_STR);
-$query->bindParam(':message',$message,PDO::PARAM_STR);
-$query->bindParam(':status',$status,PDO::PARAM_STR);
-$query->execute();
-$lastInsertId = $dbh->lastInsertId();
-if($lastInsertId)
-{
-echo "<script>alert('Booking successfull.');</script>";
-}
-else 
-{
-echo "<script>alert('Something went wrong. Please try again');</script>";
-}
-
-}
-
 ?>
 
 
@@ -43,7 +14,6 @@ echo "<script>alert('Something went wrong. Please try again');</script>";
 <meta name="keywords" content="">
 <meta name="description" content="">
 <title>Vehicle Details</title>
-<!--Bootstrap -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
 <!--Custome Style -->
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
@@ -56,15 +26,6 @@ echo "<script>alert('Something went wrong. Please try again');</script>";
 <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
 <!--FontAwesome Font Style -->
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-
-<!-- SWITCHER -->
-		<link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/red.css" title="red" media="all" data-default-color="true" />
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/orange.css" title="orange" media="all" />
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/blue.css" title="blue" media="all" />
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/pink.css" title="pink" media="all" />
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/green.css" title="green" media="all" />
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/purple.css" title="purple" media="all" />
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/favicon-icon/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon-icon/apple-touch-icon-114-precomposed.html">
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/favicon-icon/apple-touch-icon-72-precomposed.png">
@@ -74,19 +35,13 @@ echo "<script>alert('Something went wrong. Please try again');</script>";
 </head>
 <body>
 
-<!-- Start Switcher -->
-<?php include('includes/colorswitcher.php');?>
-<!-- /Switcher -->  
-
 <!--Header-->
 <?php include('includes/header.php');?>
 <!-- /Header --> 
 
-<!--Listing-Image-Slider-->
-
 <?php 
 $vhid=intval($_GET['vhid']);
-$sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblvehicles.id=:vhid";
+$sql = "SELECT vehicles.*,brands.BrandName,brands.id as bid  from vehicles join brands on brands.id=vehicles.VehiclesBrand where vehicles.id=:vhid";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':vhid',$vhid, PDO::PARAM_STR);
 $query->execute();
@@ -103,7 +58,7 @@ $_SESSION['brndid']=$result->bid;
   <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1);?>" class="img-responsive" alt="image" width="900" height="560"></div>
   <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage2);?>" class="img-responsive" alt="image" width="900" height="560"></div>
   <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage3);?>" class="img-responsive" alt="image" width="900" height="560"></div>
-  <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage4);?>" class="img-responsive"  alt="image" width="900" height="560"></div>
+  <!-- <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage4);?>" class="img-responsive"  alt="image" width="900" height="560"></div>-->
   <?php if($result->Vimage5=="")
 {
 
@@ -328,19 +283,30 @@ $_SESSION['brndid']=$result->bid;
           <p>Share: <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a> </p>
         </div>
         <div class="sidebar_widget">
+          <form action="booking.php" method="get" id="header-search-form">
+               <?php if($_SESSION['login'])
+              {?>
+              <div class="form-group">
+                <input type="submit" class="btn"  name="submit" value="Book">
+              </div>
+              <?php } else { ?>
+<a href="#loginform" class="btn btn-xs uppercase" data-toggle="modal" data-dismiss="modal">Login to Book</a>
+
+              <?php } ?>
+          </form>
+          <!--
           <div class="widget_heading">
             <h5><i class="fa fa-envelope" aria-hidden="true"></i>Book Now</h5>
           </div>
+
           <form method="post">
             <div class="form-group">
-              <input type="text" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
+              <input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" name="todate" placeholder="To Date(dd/mm/yyyy)" required>
+              <input type="date" class="form-control" name="todate" placeholder="To Date(dd/mm/yyyy)" required>
             </div>
-            <div class="form-group">
-              <textarea rows="4" class="form-control" name="message" placeholder="Message" required></textarea>
-            </div>
+      
           <?php if($_SESSION['login'])
               {?>
               <div class="form-group">
@@ -352,12 +318,15 @@ $_SESSION['brndid']=$result->bid;
               <?php } ?>
           </form>
         </div>
+      -->
       </aside>
       <!--/Side-Bar--> 
     </div>
     
     <div class="space-20"></div>
     <div class="divider"></div>
+
+
     
     <!--Similar-Cars-->
     <div class="similar_cars">
@@ -365,7 +334,7 @@ $_SESSION['brndid']=$result->bid;
       <div class="row">
 <?php 
 $bid=$_SESSION['brndid'];
-$sql="SELECT tblvehicles.VehiclesTitle,tblbrands.BrandName,tblvehicles.PricePerDay,tblvehicles.FuelType,tblvehicles.ModelYear,tblvehicles.id,tblvehicles.SeatingCapacity,tblvehicles.VehiclesOverview,tblvehicles.Vimage1 from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblvehicles.VehiclesBrand=:bid";
+$sql="SELECT vehicles.VehiclesTitle,brands.BrandName,vehicles.PricePerDay,vehicles.FuelType,vehicles.ModelYear,vehicles.id,vehicles.SeatingCapacity,vehicles.VehiclesOverview,vehicles.Vimage1 from vehicles join brands on brands.id=vehicles.VehiclesBrand where vehicles.VehiclesBrand=:bid";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':bid',$bid, PDO::PARAM_STR);
 $query->execute();
@@ -402,26 +371,12 @@ foreach($results as $result)
 </section>
 <!--/Listing-detail--> 
 
-<!--Footer -->
+
 <?php include('includes/footer.php');?>
-<!-- /Footer--> 
-
-<!--Back to top-->
 <div id="back-top" class="back-top"> <a href="#top"><i class="fa fa-angle-up" aria-hidden="true"></i> </a> </div>
-<!--/Back to top--> 
-
-<!--Login-Form -->
 <?php include('includes/login.php');?>
-<!--/Login-Form --> 
-
-<!--Register-Form -->
 <?php include('includes/registration.php');?>
-
-<!--/Register-Form --> 
-
-<!--Forgot-password-Form -->
 <?php include('includes/forgotpassword.php');?>
-
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script> 
 <script src="assets/js/interface.js"></script> 

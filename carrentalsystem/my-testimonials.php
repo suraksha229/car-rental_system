@@ -76,7 +76,7 @@ else{
 
 <?php 
 $useremail=$_SESSION['login'];
-$sql = "SELECT * from tblusers where EmailId=:useremail";
+$sql = "SELECT * from customers where EmailId=:useremail";
 $query = $dbh -> prepare($sql);
 $query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
 $query->execute();
@@ -112,7 +112,7 @@ foreach($results as $result)
             <ul class="vehicle_listing">
 <?php 
 $useremail=$_SESSION['login'];
-$sql = "SELECT * from tbltestimonial where UserEmail=:useremail";
+$sql = "SELECT * from feedback where UserEmail=:useremail";
 $query = $dbh -> prepare($sql);
 $query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
 $query->execute();

@@ -11,7 +11,7 @@ if(isset($_REQUEST['eid']))
 	{
 $eid=intval($_GET['eid']);
 $status="0";
-$sql = "UPDATE tbltestimonial SET status=:status WHERE  id=:eid";
+$sql = "UPDATE feedback SET status=:status WHERE  id=:eid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':eid',$eid, PDO::PARAM_STR);
@@ -26,7 +26,7 @@ if(isset($_REQUEST['aeid']))
 $aeid=intval($_GET['aeid']);
 $status=1;
 
-$sql = "UPDATE tbltestimonial SET status=:status WHERE  id=:aeid";
+$sql = "UPDATE feedback SET status=:status WHERE  id=:aeid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
@@ -113,7 +113,7 @@ $msg="Testimonial Successfully Active";
 										<th>#</th>
 											<th>Name</th>
 											<th>Email</th>
-											<th>Testimonials</th>
+											<th>Feedbacks</th>
 											<th>Posting date</th>
 											<th>Action</th>
 										</tr>
@@ -123,14 +123,14 @@ $msg="Testimonial Successfully Active";
 										<th>#</th>
 											<th>Name</th>
 											<th>Email</th>
-											<th>Testimonials</th>
+											<th>Feedbacks</th>
 											<th>Posting date</th>
 											<th>Action</th>
 										</tr>
 									</tfoot>
 									<tbody>
 
-									<?php $sql = "SELECT tblusers.FullName,tbltestimonial.UserEmail,tbltestimonial.Testimonial,tbltestimonial.PostingDate,tbltestimonial.status,tbltestimonial.id from tbltestimonial join tblusers on tblusers.Emailid=tbltestimonial.UserEmail";
+									<?php $sql = "SELECT customers.FullName,feedback.UserEmail,feedback.Testimonial,feedback.PostingDate,feedback.status,feedback.id from feedback join customers on customers.Emailid=feedback.UserEmail";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);

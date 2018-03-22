@@ -11,7 +11,7 @@ if(isset($_POST['submit']))
   {
 $testimonoial=$_POST['testimonial'];
 $email=$_SESSION['login'];
-$sql="INSERT INTO  tbltestimonial(UserEmail,Testimonial) VALUES(:email,:testimonoial)";
+$sql="INSERT INTO  feedback(UserEmail,Testimonial) VALUES(:email,:testimonoial)";
 $query = $dbh->prepare($sql);
 $query->bindParam(':testimonoial',$testimonoial,PDO::PARAM_STR);
 $query->bindParam(':email',$email,PDO::PARAM_STR);
@@ -114,7 +114,7 @@ $error="Something went wrong. Please try again";
 
 <?php 
 $useremail=$_SESSION['login'];
-$sql = "SELECT * from tblusers where EmailId=:useremail";
+$sql = "SELECT * from customers where EmailId=:useremail";
 $query = $dbh -> prepare($sql);
 $query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
 $query->execute();

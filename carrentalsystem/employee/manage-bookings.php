@@ -11,13 +11,13 @@ if(isset($_REQUEST['eid']))
 	{
 $eid=intval($_GET['eid']);
 $status="2";
-$sql = "UPDATE tblbooking SET Status=:status WHERE  id=:eid";
+$sql = "UPDATE bookings SET Status=:status WHERE  id=:eid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':eid',$eid, PDO::PARAM_STR);
 $query -> execute();
 
-$msg="Booking Successfully Cancelled";
+$msg="Bookings Successfully Cancelled";
 }
 
 
@@ -26,13 +26,13 @@ if(isset($_REQUEST['aeid']))
 $aeid=intval($_GET['aeid']);
 $status=1;
 
-$sql = "UPDATE tblbooking SET Status=:status WHERE  id=:aeid";
+$sql = "UPDATE bookings SET Status=:status WHERE  id=:aeid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
 $query -> execute();
 
-$msg="Booking Successfully Confirmed";
+$msg="Bookings Successfully Confirmed";
 }
 
 
@@ -99,11 +99,11 @@ $msg="Booking Successfully Confirmed";
 				<div class="row">
 					<div class="col-md-12">
 
-						<h2 class="page-title">Manage Bookings</h2>
+						<h2 class="page-title">Manage Bookingss</h2>
 
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
-							<div class="panel-heading">Bookings Info</div>
+							<div class="panel-heading">Bookingss Info</div>
 							<div class="panel-body">
 							<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
 				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
@@ -136,7 +136,7 @@ $msg="Booking Successfully Confirmed";
 									</tfoot>
 									<tbody>
 
-									<?php $sql = "SELECT tblusers.FullName,tblbrands.BrandName,tblvehicles.VehiclesTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.PostingDate,tblbooking.id  from tblbooking join tblvehicles on tblvehicles.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tblbooking.userEmail join tblbrands on tblvehicles.VehiclesBrand=tblbrands.id  ";
+									<?php $sql = "SELECT customers.FullName,brands.BrandName,vehicles.VehiclesTitle,bookings.FromDate,bookings.ToDate,bookings.message,bookings.VehicleId as vid,bookings.Status,bookings.PostingDate,bookings.id  from bookings join vehicles on vehicles.id=bookings.VehicleId join customers on customers.EmailId=bookings.userEmail join brands on vehicles.VehiclesBrand=brands.id  ";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
