@@ -2,34 +2,6 @@
 session_start();
 include('includes/config.php');
 error_reporting(0);
-if(isset($_POST['submit']))
-{
-$fromdate=$_POST['fromdate'];
-$todate=$_POST['todate']; 
-$ptime=$_POST['pickuptime'];
-$dtime=$_POST['dropofftime'];
-$useremail=$_SESSION['login'];
-$status=0;
-$vhid=$_GET['vhid'];
-$sql="INSERT INTO  bookings(userEmail,VehicleId,FromDate,ToDate,pickup,dropoff) VALUES(:useremail,:vhid,:fromdate,:todate,:ptime,:dtime)";
-$query = $dbh->prepare($sql);
-$query->bindParam(':useremail',$useremail,PDO::PARAM_STR);
-$query->bindParam(':vhid',$vhid,PDO::PARAM_STR);
-$query->bindParam(':fromdate',$fromdate,PDO::PARAM_STR);
-$query->bindParam(':todate',$todate,PDO::PARAM_STR);
-$query->bindParam(':ptime',$ptime,PDO::PARAM_STR);
-$query->bindParam(':dtime',$dtime,PDO::PARAM_STR);
-$query->execute();
-$lastInsertId = $dbh->lastInsertId();
-if($lastInsertId)
-{
-echo "<script>alert('Booking successfull.');</script>";
-}
-else 
-{
-echo "<script>alert('Something went wrong. Please try again');</script>";
-}
-}
 ?>
 
 
@@ -42,7 +14,6 @@ echo "<script>alert('Something went wrong. Please try again');</script>";
 <meta name="keywords" content="">
 <meta name="description" content="">
 <title>Vehicle Details</title>
-<!--Bootstrap -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
 <!--Custome Style -->
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
@@ -55,15 +26,6 @@ echo "<script>alert('Something went wrong. Please try again');</script>";
 <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
 <!--FontAwesome Font Style -->
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-
-<!-- SWITCHER -->
-    <link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
-    <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/red.css" title="red" media="all" data-default-color="true" />
-    <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/orange.css" title="orange" media="all" />
-    <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/blue.css" title="blue" media="all" />
-    <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/pink.css" title="pink" media="all" />
-    <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/green.css" title="green" media="all" />
-    <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/purple.css" title="purple" media="all" />
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/favicon-icon/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon-icon/apple-touch-icon-114-precomposed.html">
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/favicon-icon/apple-touch-icon-72-precomposed.png">
@@ -73,13 +35,9 @@ echo "<script>alert('Something went wrong. Please try again');</script>";
 </head>
 <body>
 
-
-
 <!--Header-->
 <?php include('includes/header.php');?>
 <!-- /Header --> 
-
-<!--Listing-Image-Slider-->
 
 <?php 
 $vhid=intval($_GET['vhid']);
@@ -100,9 +58,10 @@ $_SESSION['brndid']=$result->bid;
   <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1);?>" class="img-responsive" alt="image" width="900" height="560"></div>
   <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage2);?>" class="img-responsive" alt="image" width="900" height="560"></div>
   <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage3);?>" class="img-responsive" alt="image" width="900" height="560"></div>
-  <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage4);?>" class="img-responsive"  alt="image" width="900" height="560"></div>
+  <!-- <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage4);?>" class="img-responsive"  alt="image" width="900" height="560"></div>-->
   <?php if($result->Vimage5=="")
 {
+
 } else {
   ?>
   <div><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage5);?>" class="img-responsive" alt="image" width="900" height="560"></div>
@@ -120,7 +79,7 @@ $_SESSION['brndid']=$result->bid;
       </div>
       <div class="col-md-3">
         <div class="price_info">
-          <p>₹<?php echo htmlentities($result->PricePerDay);?> </p>Per Day
+          <p>$<?php echo htmlentities($result->PricePerDay);?> </p>Per Day
          
         </div>
       </div>
@@ -324,43 +283,50 @@ $_SESSION['brndid']=$result->bid;
           <p>Share: <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a> </p>
         </div>
         <div class="sidebar_widget">
-          <div class="widget_heading">
-            <h5><i class="fa fa-envelope" aria-hidden="true"></i>Book Now</h5>
-          </div>
-          <form method="post">
-            <div class="form-group">
-              <label>From:</label>
-              <input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
-            </div>
-            <div class="form-group">
-              <label>Pick up time:</label>
-              <input type="time" name="pickuptime" required="required">
-            </div>
-            <div class="form-group">
-              <label>To:</label>
-              <input type="date" class="form-control" name="todate" placeholder="To Date(dd/mm/yyyy)" required>
-            </div>
-            <div class="form-group">
-              <label>Drop-off time:</label>
-              <input type="time" name="dropofftime" required="required">
-            </div>
-          <?php if($_SESSION['login'])
+          <form action="booking.php" method="get" id="header-search-form">
+               <?php if($_SESSION['login'])
               {?>
               <div class="form-group">
-                <input type="submit" class="btn"  name="submit" value="Book Now">
+                <input type="submit" class="btn"  name="submit" value="Book">
               </div>
               <?php } else { ?>
 <a href="#loginform" class="btn btn-xs uppercase" data-toggle="modal" data-dismiss="modal">Login to Book</a>
 
               <?php } ?>
           </form>
+          <!--
+          <div class="widget_heading">
+            <h5><i class="fa fa-envelope" aria-hidden="true"></i>Book Now</h5>
+          </div>
+
+          <form method="post">
+            <div class="form-group">
+              <input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
+            </div>
+            <div class="form-group">
+              <input type="date" class="form-control" name="todate" placeholder="To Date(dd/mm/yyyy)" required>
+            </div>
+      
+          <?php if($_SESSION['login'])
+              {?>
+              <div class="form-group">
+                <input type="submit" class="btn"  name="submit" value="Book Now">
+              </div>
+              <?php } else { ?>
+<a href="#loginform" class="btn btn-xs uppercase" data-toggle="modal" data-dismiss="modal">Login For Book</a>
+
+              <?php } ?>
+          </form>
         </div>
+      -->
       </aside>
       <!--/Side-Bar--> 
     </div>
     
     <div class="space-20"></div>
     <div class="divider"></div>
+
+
     
     <!--Similar-Cars-->
     <div class="similar_cars">
@@ -405,26 +371,12 @@ foreach($results as $result)
 </section>
 <!--/Listing-detail--> 
 
-<!--Footer -->
+
 <?php include('includes/footer.php');?>
-<!-- /Footer--> 
-
-<!--Back to top-->
 <div id="back-top" class="back-top"> <a href="#top"><i class="fa fa-angle-up" aria-hidden="true"></i> </a> </div>
-<!--/Back to top--> 
-
-<!--Login-Form -->
 <?php include('includes/login.php');?>
-<!--/Login-Form --> 
-
-<!--Register-Form -->
 <?php include('includes/registration.php');?>
-
-<!--/Register-Form --> 
-
-<!--Forgot-password-Form -->
 <?php include('includes/forgotpassword.php');?>
-
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script> 
 <script src="assets/js/interface.js"></script> 

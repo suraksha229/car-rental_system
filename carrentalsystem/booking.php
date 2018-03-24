@@ -10,7 +10,7 @@ $ptime=$_POST['pickuptime'];
 $dtime=$_POST['dropofftime'];
 $useremail=$_SESSION['login'];
 $status=0;
-$vhid=$_GET['vhid'];
+$vhid=$_POST['vhid'];
 $sql="INSERT INTO  bookings(userEmail,VehicleId,FromDate,ToDate,pickup,dropoff) VALUES(:useremail,:vhid,:fromdate,:todate,:ptime,:dtime)";
 $query = $dbh->prepare($sql);
 $query->bindParam(':useremail',$useremail,PDO::PARAM_STR);
@@ -70,14 +70,14 @@ echo "<script>alert('Something went wrong. Please try again');</script>";
 	<table>
 		<tr>
 			<td>From:</td>
-			<td><input type="date" name="fromdate"></td>
+			<td><input type="date" name="fromdate" required="required"></td>
 			<td>Pickup time</td>
-			<td><input type="time" name="pickuptime"></td></tr>
+			<td><input type="time" name="pickuptime" required="required"></td></tr>
 		<tr>
 			<td>To:</td>
-			<td><input type="date" name="todate"></td>
+			<td><input type="date" name="todate" required="required"></td>
 			<td>Dropoff time</td>
-			<td><input type="time" name="dropofftime"></td>
+			<td><input type="time" name="dropofftime" required="required"></td>
 		</tr>
 	</table>
 		<?php if($_SESSION['login'])

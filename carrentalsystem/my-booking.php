@@ -7,7 +7,20 @@ if(strlen($_SESSION['login'])==0)
 header('location:index.php');
 }
 else{
-?><!DOCTYPE HTML>
+  if(isset($_REQUEST['eid']))
+  {
+$eid=intval($_GET['eid']);
+$status="2";
+$sql = "UPDATE bookings SET Status=:status WHERE  id=:eid";
+$query = $dbh->prepare($sql);
+$query -> bindParam(':status',$status, PDO::PARAM_STR);
+$query-> bindParam(':eid',$eid, PDO::PARAM_STR);
+$query -> execute();
+$msg="Booking Cancelled";
+}
+?>
+
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -16,37 +29,25 @@ else{
 <meta name="keywords" content="">
 <meta name="description" content="">
 <title>My bookings</title>
-<!--Bootstrap -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
-<!--Custome Style -->
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
-<!--OWL Carousel slider-->
 <link rel="stylesheet" href="assets/css/owl.carousel.css" type="text/css">
 <link rel="stylesheet" href="assets/css/owl.transitions.css" type="text/css">
-<!--slick-slider -->
 <link href="assets/css/slick.css" rel="stylesheet">
-<!--bootstrap-slider -->
 <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
-<!--FontAwesome Font Style -->
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-
-    
-<!-- Fav and touch icons -->
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/favicon-icon/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon-icon/apple-touch-icon-114-precomposed.html">
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/favicon-icon/apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed" href="assets/images/favicon-icon/apple-touch-icon-57-precomposed.png">
 <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
-<!-- Google-Font-->
 <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet"> 
 </head>
 <body>
 
-<!--Header-->
 <?php include('includes/header.php');?>
-<!-- /Header --> 
 
-<!--Page Header-->
+
 <section class="page-header profile_page">
   <div class="container">
     <div class="page-header_wrap">
@@ -59,10 +60,9 @@ else{
       </ul>
     </div>
   </div>
-  <!-- Dark Overlay-->
+
   <div class="dark-overlay"></div>
 </section>
-<!-- /Page Header--> 
 
 <?php 
 $useremail=$_SESSION['login'];
@@ -99,7 +99,7 @@ foreach($results as $result)
             <ul class="vehicle_listing">
 <?php 
 $useremail=$_SESSION['login'];
- $sql = "SELECT vehicles.Vimage1 as Vimage1,vehicles.VehiclesTitle,vehicles.id as vid,brands.BrandName,bookings.FromDate,bookings.ToDate,bookings.message,bookings.Status  from bookings join vehicles on bookings.VehicleId=vehicles.id join brands on brands.id=vehicles.VehiclesBrand where bookings.userEmail=:useremail";
+ $sql = "SELECT vehicles.Vimage1 as Vimage1,vehicles.VehiclesTitle,vehicles.id as vid,brands.BrandName,bookings.FromDate,bookings.ToDate,bookings.message,bookings.Status,bookings.id  from bookings join vehicles on bookings.VehicleId=vehicles.id join brands on brands.id=vehicles.VehiclesBrand where bookings.userEmail=:useremail";
 $query = $dbh -> prepare($sql);
 $query-> bindParam(':useremail', $useremail, PDO::PARAM_STR);
 $query->execute();
@@ -116,25 +116,28 @@ foreach($results as $result)
                   <h6><a href="vehical-details.php?vhid=<?php echo htmlentities($result->vid);?>""> <?php echo htmlentities($result->BrandName);?> , <?php echo htmlentities($result->VehiclesTitle);?></a></h6>
                   <p><b>From Date:</b> <?php echo htmlentities($result->FromDate);?><br /> <b>To Date:</b> <?php echo htmlentities($result->ToDate);?></p>
                 </div>
-                <?php if($result->Status==1)
+
+                <div>
+                
+               <div>
+                 <a href="my-booking.php?eid=<?php echo htmlentities($result->id);?>" class="btn outline btn-xs active-btn" onclick="return confirm('Do you really want to Cancel this Booking?')"> Cancel booking</a>
+               </div>
+               <div>
+
+               <?php if($result->Status==2)
                 { ?>
-                <div class="vehicle_status"> <a href="#" class="btn outline btn-xs active-btn">Confirmed</a>
-                           <div class="clearfix"></div>
-        </div>
 
-              <?php } else if($result->Status==2) { ?>
- <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Cancelled</a>
-            <div class="clearfix"></div>
-        </div>
-             
+                  <div class="vehicle_status">
+                    <a href="#" class="btn outline btn-xs active-btn">Cancelled</a>
+                    <div class="clearfix"></div>                    
+                  </div>
+               <?php } ?>
+             </div>
+           </div>
 
 
-                <?php } else { ?>
- <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Not Confirm yet</a>
-            <div class="clearfix"></div>
-        </div>
                 <?php } ?>
-       <div style="float: left"><p><b>Message:</b> <?php echo htmlentities($result->message);?> </p></div>
+       
               </li>
               <?php }} ?>
              
@@ -162,4 +165,3 @@ foreach($results as $result)
 <script src="assets/js/owl.carousel.min.js"></script>
 </body>
 </html>
-<?php } ?>

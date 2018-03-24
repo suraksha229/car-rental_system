@@ -16,27 +16,9 @@ $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':eid',$eid, PDO::PARAM_STR);
 $query -> execute();
-
-$msg="Bookings Cancelled";
+$msg="Booking Cancelled";
 }
-
-
-if(isset($_REQUEST['aeid']))
-	{
-$aeid=intval($_GET['aeid']);
-$status=1;
-
-$sql = "UPDATE bookings SET Status=:status WHERE  id=:aeid";
-$query = $dbh->prepare($sql);
-$query -> bindParam(':status',$status, PDO::PARAM_STR);
-$query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
-$query -> execute();
-
-$msg="Bookings Confirmed";
-}
-
-
- ?>
+?>
 
 <!doctype html>
 <html lang="en" class="no-js">
@@ -49,7 +31,7 @@ $msg="Bookings Confirmed";
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Manage bookingss   </title>
+	<title>Manage bookings  </title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -99,11 +81,11 @@ $msg="Bookings Confirmed";
 				<div class="row">
 					<div class="col-md-12">
 
-						<h2 class="page-title">Manage Bookingss</h2>
+						<h2 class="page-title">Manage Bookings</h2>
 
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
-							<div class="panel-heading">Bookings</div>
+							<div class="panel-heading">Bookingss</div>
 							<div class="panel-body">
 							<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
 				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
@@ -115,7 +97,6 @@ $msg="Bookings Confirmed";
 											<th>Vehicle</th>
 											<th>From Date</th>
 											<th>To Date</th>
-											<th>Message</th>
 											<th>Status</th>
 											<th>Posting date</th>
 											<th>Action</th>
@@ -128,7 +109,6 @@ $msg="Bookings Confirmed";
 											<th>Vehicle</th>
 											<th>From Date</th>
 											<th>To Date</th>
-											<th>Message</th>
 											<th>Status</th>
 											<th>Posting date</th>
 											<th>Action</th>
@@ -152,12 +132,10 @@ $msg="Bookings Confirmed";
 											<td><a href="edit-vehicle.php?id=<?php echo htmlentities($result->vid);?>"><?php echo htmlentities($result->BrandName);?> , <?php echo htmlentities($result->VehiclesTitle);?></td>
 											<td><?php echo htmlentities($result->FromDate);?></td>
 											<td><?php echo htmlentities($result->ToDate);?></td>
-											<td><?php echo htmlentities($result->message);?></td>
 											<td><?php 
-
-										if($result->Status==0)
+										if($result->Status==null)
 										{
-											echo htmlentities('Not Confirmed yet');
+											echo htmlentities('No action performed');
 										} else if ($result->Status==1) {
 										echo htmlentities('Confirmed');
 										}
@@ -165,13 +143,10 @@ $msg="Bookings Confirmed";
  											echo htmlentities('Cancelled');
  										}
 										?></td>
-											<td><?php echo htmlentities($result->PostingDate);?></td>
-										<td><a href="manage-bookingss.php?aeid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Confirm this bookings')"> Confirm</a> /
-
-
-<a href="manage-bookingss.php?eid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Cancel this Bookings')"> Cancel</a>
-</td>
-
+										<td><?php echo htmlentities($result->PostingDate);?></td>
+										<td>
+											<a href="manage-bookings.php?eid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Cancel this Booking?')"> Cancel</a>
+										</td>
 										</tr>
 										<?php $cnt=$cnt+1; }} ?>
 										

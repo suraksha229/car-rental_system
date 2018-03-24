@@ -22,13 +22,8 @@ error_reporting(0);
 <link href="assets/css/slick.css" rel="stylesheet">
 <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-		<link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/red.css" title="purple" media="all" data-default-color="true" />
-		<!--<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/orange.css" title="orange" media="all" />
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/blue.css" title="blue" media="all" />
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/pink.css" title="pink" media="all" />
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/green.css" title="green" media="all" />-->
-		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/purple.css" title="purple" media="all" />
+	
+		
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/favicon-icon/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon-icon/apple-touch-icon-114-precomposed.html">
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/favicon-icon/apple-touch-icon-72-precomposed.png">
@@ -37,8 +32,6 @@ error_reporting(0);
 <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet"> 
 </head>
 <body>
-
-
         
 <!--Header-->
 <?php include('includes/header.php');?>
@@ -71,17 +64,11 @@ error_reporting(0);
     </div>
     <div class="row"> 
       
-      <!-- Nav tabs -->
-      <div class="recent-tab">
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#resentnewcar" role="tab" data-toggle="tab">New Car</a></li>
-        </ul>
-      </div>
       <!-- Recently Listed New Cars -->
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="resentnewcar">
 
-<?php $sql = "SELECT vehicles.VehiclesTitle,brands.BrandName,vehicles.PricePerDay,vehicles.FuelType,vehicles.ModelYear,vehicles.id,vehicles.SeatingCapacity,vehicles.VehiclesOverview,vehicles.Vimage1 from vehicles join brands on brands.id=vehicles.VehiclesBrand";
+<?php $sql = "SELECT vehicles.VehiclesTitle,brands.BrandName,vehicles.PricePerDay,vehicles.FuelType,vehicles.ModelYear,vehicles.id,vehicles.SeatingCapacity,vehicles.VehiclesOverview,vehicles.Vimage1 from vehicles join brands on brands.id=vehicles.VehiclesBrand order by id desc limit 6";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -117,49 +104,6 @@ foreach($results as $result)
   </div>
 </section>
 <!-- /Resent Cat --> 
-
-<!-- Fun Facts-->
-<section class="fun-facts-section">
-  <div class="container div_zindex">
-    <div class="row">
-      <div class="col-lg-3 col-xs-6 col-sm-3">
-        <div class="fun-facts-m">
-          <div class="cell">
-            <h2><i class="fa fa-calendar" aria-hidden="true"></i>40+</h2>
-            <p>Years In Business</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-xs-6 col-sm-3">
-        <div class="fun-facts-m">
-          <div class="cell">
-            <h2><i class="fa fa-car" aria-hidden="true"></i>1000+</h2>
-            <p>New Cars For Rent</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-xs-6 col-sm-3">
-        <div class="fun-facts-m">
-          <div class="cell">
-            <h2><i class="fa fa-car" aria-hidden="true"></i>500+</h2>
-            <p>Luxury cars for rent!</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-xs-6 col-sm-3">
-        <div class="fun-facts-m">
-          <div class="cell">
-            <h2><i class="fa fa-user-circle-o" aria-hidden="true"></i>600+</h2>
-            <p>Satisfied Customers</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Dark Overlay-->
-  <div class="dark-overlay"></div>
-</section>
-<!-- /Fun Facts--> 
 
 <!--Footer -->
 <?php include('includes/footer.php');?>

@@ -56,11 +56,11 @@ foreach($results as $result)
           <li><a href="index.php">Home</a>    </li>
           	 
           <li><a href="page.php?type=aboutus">About Us</a></li>
-          <li><a href="car-listing.php">Car Listing</a>
+          <li><a href="car-listing.php">Cars</a>
           <li><a href="contact-us.php">Contact Us</a></li>
           <li> <?php   if(strlen($_SESSION['login'])==0){ 
               ?>
-              <a href="#loginform" class="btn btn-xs uppercase" data-toggle="modal" data-dismiss="modal">Login</a> </div>
+              <a href="#loginform" class="btn btn-xs uppercase" data-toggle="modal" id="log" data-dismiss="modal">Login</a> </div>
               <?php } ?>
           </li>
         </ul>
